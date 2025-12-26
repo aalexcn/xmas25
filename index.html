@@ -1,633 +1,121 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Navidad 2025 🎄</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navidad 2025</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="icon" type="image/png" href="https://em-content.zobj.net/thumbs/240/apple/354/christmas-tree_1f384.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://em-content.zobj.net/thumbs/240/apple/354/christmas-tree_1f384.png">
 
-<style>
-/* ================= BASE ================= */
-body {
-  margin: 0;
-  height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(255,215,0,0.12), transparent 40%),
-    radial-gradient(circle at bottom left, rgba(200,0,0,0.15), transparent 45%),
-    radial-gradient(circle at bottom right, rgba(0,150,80,0.15), transparent 45%),
-    linear-gradient(135deg, #0b1d3a, #1f4068);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Georgia", serif;
-  color: #fff;
-  overflow: hidden;
-}
-
-/* ================= NIEVE ================= */
-.snow {
-  position: fixed;
-  top: -10px;
-  pointer-events: none;
-  animation: fall linear infinite;
-  z-index: 1;
-}
-
-@keyframes fall {
-  to { transform: translateY(110vh); }
-}
-
-/* ================= OVERLAY FORM ================= */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-}
-
-.overlay-card {
-  background: rgba(15,25,45,0.95);
-  border-radius: 22px;
-  padding: 40px 30px;
-  max-width: 420px;
-  width: 100%;
-  text-align: center;
-}
-
-/* ================= LIBRO ================= */
-.book {
-  width: 100%;
-  max-width: 420px;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(6px);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-  position: relative;
-  overflow: hidden;
-  padding: 20px 16px 56px;
-  transition: height 0.35s ease;
-  z-index: 5;
-}
-
-/* ================= PÁGINAS ================= */
-.page {
-  position: absolute;
-  inset: 0;
-  padding: 20px 16px 56px;
-  opacity: 0;
-  transform: translateX(100%);
-  transition: transform 0.45s ease, opacity 0.35s ease;
-  display: flex;
-}
-
-.page.active { opacity: 1; transform: translateX(0); }
-.page.left { transform: translateX(-100%); }
-
-.page-content {
-  width: 100%;
-  overflow-y: auto;
-  padding-right: 6px;
-}
-
-/* ================= TEXTO ================= */
-.page h2 {
-  font-size: 1.45rem;
-  margin-bottom: 14px;
-  text-align: center;
-}
-
-.page p {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  white-space: pre-line;
-}
-
-/* ================= NAV ================= */
-.nav {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 14px;
-}
-
-.nav button {
-  background: rgba(255,255,255,0.18);
-  border: none;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 12px;
-}
-
-.nav button:disabled { opacity: 0.35; }
-/* ================= REGALO FINAL ================= */
-.gift-overlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,255,255,0.15), rgba(0,0,0,0.95));
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 500;
-  text-align: center;
-}
-
-.gift-box {
-  font-size: 6rem;
-  cursor: pointer;
-  animation: giftShake 1.2s infinite;
-  z-index: 2;
-}
-
-@keyframes giftShake {
-  0%,100% { transform: rotate(0deg); }
-  25% { transform: rotate(-6deg); }
-  75% { transform: rotate(6deg); }
-}
-
-.gift-light {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(255,255,200,0.9), transparent 70%);
-  animation: glow 2s infinite;
-  z-index: 1;
-}
-
-@keyframes glow {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  100% { transform: scale(1.15); opacity: 1; }
-}
-
-.gift-text {
-  margin-top: 30px;
-  font-size: 1.8rem;
-  font-weight: bold;
-  text-shadow: 0 0 25px rgba(255,255,255,0.9);
-}
-
-.reflection {
-  margin-top: 30px;
-  width: 90%;
-  max-width: 420px;
-}
-
-.reflection textarea {
-  width: 100%;
-  min-height: 130px;
-  border-radius: 14px;
-  padding: 12px;
-  border: none;
-  resize: vertical;
-}
-.book {
-  transition: opacity 0.6s ease, transform 0.6s ease, height 0.35s ease;
-}
-.gift-overlay {
-  display: none;
-}
-/* ===== MEJORA CONTRASTE REGALO ===== */
-
-.gift-overlay {
-  background:
-    radial-gradient(circle at center, rgba(255,255,220,0.25), rgba(0,0,0,0.96));
-}
-
-.gift-text {
-  color: #fff;
-  font-size: 2rem;
-  letter-spacing: 0.5px;
-  text-shadow:
-    0 0 10px rgba(255,255,255,0.9),
-    0 0 25px rgba(255,215,0,0.8),
-    0 0 45px rgba(255,215,0,0.6);
-}
-
-.gift-box {
-  filter: drop-shadow(0 0 30px rgba(255,215,0,0.9));
-}
-
-.reflection h4 {
-  color: #fff;
-  text-shadow: 0 0 12px rgba(255,255,255,0.7);
-}
-
-.reflection textarea {
-  background: rgba(255,255,255,0.95);
-  color: #111;
-  font-size: 0.95rem;
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.4),
-    0 0 25px rgba(255,215,0,0.3);
-}
-/* ===== AJUSTES REGALO ===== */
-
-.gift-text {
-  margin-top: 24px;
-  font-size: 2.1rem;
-  line-height: 1.25;
-  text-align: center;
-}
-
-.gift-text .gift-sub {
-  display: block;
-  margin-top: 6px;
-  font-size: 1.5rem;
-  font-weight: 500;
-  opacity: 0.95;
-}
-
-.reflection {
-  margin-top: 28px;
-}
-
-.reflection h4 {
-  font-size: 1.1rem;
-}
-
-.reflection-hint {
-  font-size: 0.85rem;
-  opacity: 0.9;
-  margin-bottom: 10px;
-}
-
-.reflection textarea {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.5;
-}
-
-#reflectionMsg {
-  font-size: 0.9rem;
-}
-/* ===== CIERRE TRAS ENVÍO ===== */
-.fade-out {
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.gift-text.final {
-  font-size: 2.3rem;
-  margin-top: 10px;
-}
-/* ===== LOADER INICIAL LIBRO ===== */
-.book-loader {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(4px);
-  z-index: 20;
-  text-align: center;
-  animation: fadeIn 0.3s ease;
-}
-
-.loader-text {
-  font-size: 1rem;
-  opacity: 0.95;
-  margin-bottom: 8px;
-}
-
-.loader-dots {
-  font-size: 1.5rem;
-  letter-spacing: 4px;
-  animation: dots 1.4s infinite;
-}
-
-@keyframes dots {
-  0% { opacity: 0.2; }
-  50% { opacity: 1; }
-  100% { opacity: 0.2; }
-}
-
-</style>
+  <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
 <body>
+  <!-- NIEVE (se crea por JS) -->
 
-<!-- ================= NIEVE ================= -->
-<script>
-for (let i = 0; i < 40; i++) {
-  const s = document.createElement("div");
-  s.className = "snow";
-  s.textContent = "❄";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.fontSize = (10 + Math.random() * 18) + "px";
-  s.style.animationDuration = (6 + Math.random() * 6) + "s";
-  document.body.appendChild(s);
-}
-</script>
+  <!-- OVERLAY NOMBRE -->
+  <div class="overlay" id="overlay" aria-modal="true" role="dialog">
+    <div class="overlay-card">
+      <div class="badge-xmas mb-2">✨</div>
+      <h5 class="mb-2">Antes de comenzar</h5>
+      <p class="mb-3">
+        Si has llegado hasta aquí, gracias.<br><br>
+        <strong>Escribe tu nombre porfi</strong> 
+      </p>
 
-<!-- ================= FORMULARIO ================= -->
-<div class="overlay" id="overlay">
-  <div class="overlay-card">
-    <h5>Antes de empezar ✨</h5>
-    <p>Este mensaje no es genérico.<br>Escríbeme tu nombre 💙</p>
-    <input id="nameInput" class="form-control text-center my-3">
-    <div id="error" class="text-warning d-none">Escribe tu nombre real 🙂</div>
-    <button id="startBtn" class="btn btn-light w-100">Entrar</button>
-  </div>
-</div>
+      <input id="nameInput" class="form-control form-control-lg text-center" placeholder="Tu nombre" maxlength="22" autocomplete="name" />
 
-<!-- ================= LIBRO ================= -->
-<div class="book" id="book">
-<!-- LOADER INICIAL -->
-<div class="book-loader" id="bookLoader">
-  <div class="loader-text">
-    Preparando algo especial para ti… ✨
-  </div>
-  <div class="loader-dots">•••</div>
-</div>
+      <div id="error" class="text-warning mt-2 d-none">
+        Solo letras y espacios 🙂 (sin números)
+      </div>
 
-  <!-- PORTADA -->
-  <div class="page active"><div class="page-content">
-    <h2>Navidad 2025 🎄</h2>
-    <p id="text-0" style="text-align:center"></p>
-  </div></div>
+      <button id="startBtn" class="btn btn-light w-100 fw-semibold mt-3">
+        Entrar
+      </button>
 
-  <div class="page"><div class="page-content"><p id="text-1"></p></div></div>
-  <div class="page"><div class="page-content"><p id="text-2"></p></div></div>
-  <div class="page"><div class="page-content"><p id="text-3"></p></div></div>
-  <div class="page"><div class="page-content"><p id="text-4"></p></div></div>
-  <div class="page"><div class="page-content"><p id="text-5"></p></div></div>
-  <div class="page"><div class="page-content"><p id="text-6"></p></div></div>
-  <div class="page"><div class="page-content"><p id="text-7"></p></div></div>
-
-  <div class="nav">
-    <button id="prev">←</button>
-    <button id="next">→</button>
-  </div>
-</div>
-<!-- ================= REGALO FINAL ================= -->
-<div class="gift-overlay" id="giftOverlay" aria-hidden="true">
-
-  <!-- Resplandor -->
-
-  <!-- Caja -->
-  <div class="gift-box" id="giftBox" role="button" aria-label="Abrir regalo">
-    🎁
+      <div class="tiny-note mt-3">
+        (Se guardará para no volver a pedirlo)
+      </div>
+    </div>
   </div>
 
-  <!-- Mensaje principal -->
-  <div class="gift-text d-none" id="giftText">
-    ¡Feliz Navidad! 🎄✨<br>
-    <span class="gift-sub">
-      y Próspero Año 2026
-    </span>
+  <!-- CARTA -->
+  <div class="letter-wrapper d-none" id="letterWrapper">
+    <!-- SOBRE / PORTADA -->
+    <div class="envelope" id="envelope">
+      <div class="envelope-inner">
+
+        <h2 class="mb-2">Hola, <span id="letterName"></span> 💌</h2>
+        <p class="mb-3">Gracias por llegar hasta aquí.
+          <br> He escrito algo para ti.</p>
+
+        <button id="openLetterBtn" class="btn btn-light fw-semibold">
+          Abrir ✉️
+        </button>
+
+        <div class="envelope-footer mt-3">
+          Álex - Navidad 2025 🎄
+        </div>
+      </div>
+    </div>
+
+    <!-- HOJA -->
+    <div class="paper d-none" id="paper">
+      <div class="paper-top">
+        <div class="paper-title">¡Feliz Navidad!</div>
+        <div class="paper-sub">Para <span id="paperToName"></span></div>
+      </div>
+
+      <div class="paper-content" id="paperContent" aria-label="Carta" role="region"></div>
+
+      <div class="paper-controls">
+        <button id="nextPartBtn" class="btn btn-outline-dark w-100 fw-semibold">
+          Leer Más ✨
+        </button>
+
+        <button id="continueGiftBtn" class="btn btn-dark w-100 fw-semibold mt-2 d-none">
+          Continuar 🎁
+        </button>
+
+        <div class="paper-hint mt-2" id="paperHint">
+          (Aparece poco a poco para que se lea mejor)
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Reflexión -->
-  <div class="reflection d-none" id="reflection">
-    <h4>Si te apetece, deja aquí un comentario 💭</h4>
+  <!-- REGALO FINAL -->
+  <div class="gift-overlay d-none" id="giftOverlay" aria-hidden="true">
+    <!-- <div class="gift-light" aria-hidden="true"></div> -->
 
-    <p class="reflection-hint">
-      Me encantará leer una reflexión o simplemente unas palabras.
-    </p>
+    <div class="gift-box" id="giftBox" role="button" aria-label="Abrir regalo">🎁</div>
 
-    <textarea
-      id="reflectionInput"
-      placeholder="Cuéntame algo, lo que te salga del corazón 🙂"
-      maxlength="800"
-    ></textarea>
+    <div class="gift-text d-none" id="giftText">
+      ¡Feliz Navidad! 🎄✨<br>
+      <span class="gift-sub">y Próspero Año 2026</span>
+    </div>
 
-    <button
-      id="sendReflection"
-      class="btn btn-light w-100 mt-3 fw-semibold"
-    >
-      Enviar✨
-    </button>
+    <div class="reflection d-none" id="reflectionBlock">
+      <h4 class="mb-1">Si te apetece, deja aquí unas palabras 💭</h4>
+      <div class="reflection-hint mb-2">
+        Me encantará leer unas palabritas tuyas.
+      </div>
 
-    <div id="reflectionMsg" class="mt-2 d-none"></div>
+      <textarea
+        id="reflectionInput"
+        placeholder="Cuéntame algo de tu año, o lo que te salga del corasonsito 🙂"
+        maxlength="800"
+      ></textarea>
+
+      <button id="sendReflectionBtn" class="btn btn-light w-100 mt-3 fw-semibold">
+        Enviar ✨
+      </button>
+
+      <div id="reflectionMsg" class="mt-2 d-none"></div>
+    </div>
   </div>
 
-</div>
-
-
-<script>
-/* ================= DATOS ================= */
-const overlay = document.getElementById("overlay");
-const input = document.getElementById("nameInput");
-const button = document.getElementById("startBtn");
-const error = document.getElementById("error");
-const book = document.getElementById("book");
-const giftOverlay = document.getElementById("giftOverlay");
-const giftBox = document.getElementById("giftBox");
-const giftText = document.getElementById("giftText");
-const reflection = document.getElementById("reflection");
-const bookLoader = document.getElementById("bookLoader");
-
-let name = localStorage.getItem("visitorName");
-
-
-/* ================= TEXTO ORIGINAL ÍNTEGRO ================= */
-const texts = (n) => [
-`Hola, ${n}.
-
-¡Feliz Navidad!
-
-Gracias por llegar hasta aquí.
-
-Espero que te guste lo que estás a punto de leer.`,
-
-`2024 no fue un buen año, ni mucho menos, pero aunque eso ya quedó muy atrás, creo que es importante recordarlo para poder compararlo con el que, ha sido uno de los mejores años de mi vida.
-
-Y es curioso porque no ha pasado nada muy relevante, ni muy importante y creo que, en parte, para mí eso es lo que lo hace de los mejores.`,
-
-`Yo siempre les decía a mis amigos: "tranquilo es una mala racha, ya vendrán mejores".
-
-No miento si digo que este año habré atravesado ¿1? ¿2? malas rachas. Por fin, puedo decir que estoy feliz casi al 100%, y lo más importante, que SOY feliz, en mayúsculas.`,
-
-`Siempre he tendido a ver lo negativo de todo y a quedarme únicamente con eso, me encerraba en mi burbuja llena de oscuridad y no podía ver otra cosa que ese fondo negro.
-
-Llámame loco pero el 2025, ha sido como un rayo de luz para mi. Esa luz me ha alumbrado y guiado hacia donde sí debo estar y lo que sí debo ser.`,
-
-`Y aunque estoy muy orgulloso de los grandes avances que he hecho este año personalmente, no podría haberlo logrado sin ti, ${n}. Y eso me llena aún mas de orgullo.
-
-Rodearme de un entorno sano, feliz, real y fiel es un regalo que yo recibo a diario. Seguramente no merezca tanto, o quizás si, lo que tengo seguro es que no podría pedir nada mejor.`,
-
-`Me da igual si eres uno de los de toda la vida, o nos conocemos hace poco, si eres de Murillo, o del pueblo de al lado, si comentamos la isla de las tentaciones o la casa de los gemelos, nos veamos poco, mucho, o casi nada, si estás aqui, gracias.
-
-He ido a mi primer apres-ski, he visitado nuevas ciudades, nuevos estadios de fútbol, he perdido dinero en LAS VEGAS, he visto casi morir al club de mi vida dos veces, y resurgir de entre las cenizas y he atravesado uno de los puentes mas espectaculares del mundo, entre otras tantas cosas.`,
-
-`A nivel personal este año he aprendido tantas cosas.
-
-Decidí lanzarme a la piscina e irme con 18 personas que no conocía de absolutamente nada a Estados Unidos 20 días, ahora gracias a dios, varias de esas personas son mis amigos.
-
-Tengo 5 tíos espectaculares a mi lado con los que paso la mayor parte de mis días y no podría tener más suerte de vivir tantas cosas con ellos. Un año más, mi segunda familia de mi segunda casa, año tras año siguen ahí al pie del cañón, en verano o fuera de él.
-
-Tengo a mis personas de toda la vida, que las que valen, ahí siguen.
-
-Afortunadamente, me he adaptado de maravilla al mundo laboral y de momento, no podría estar en un mejor sitio ni tener unos mejores compañeros, que ya son más que simples compañeros.
-
-Y si eres una de las personas que ha entrado nuevas en mi vida, si estás leyendo esto, es porque quiero que permanezcas mucho tiempo más.`,
-
-`De verdad, aunque suene a tópico gracias por estar ahí siempre, por considerarme un amigo tuyo y por perder unos minutos de tu día en leer esto.
-
-Gracias, porque sin ti, el año habría sido un poquito peor, un poquito menos divertido.
-
-— Álex 2025 🎄`
-];
- 
-/* ================= TYPEWRITER ================= */
-let timer;
-function typeWriter(text, el) {
-  clearInterval(timer);
-
-  // Pintar inmediatamente el primer carácter
-  el.textContent = text.charAt(0);
-  el.scrollTop = el.scrollHeight;
-
-  let i = 1;
-
-  timer = setInterval(() => {
-    el.textContent += text.charAt(i++);
-    el.scrollTop = el.scrollHeight;
-
-    if (i >= text.length) {
-      clearInterval(timer);
-      adjustHeight(el);
-    }
-  }, 22);
-}
-
-
-/* ================= ALTURA DINÁMICA ================= */
-function adjustHeight(el) {
-  const min = 320;
-  const max = window.innerHeight * 0.85;
-  const needed = el.scrollHeight + 140;
-  book.style.height = Math.min(Math.max(needed, min), max) + "px";
-}
-
-/* ================= LIBRO ================= */
-const pages = document.querySelectorAll(".page");
-let current = 0;
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
-
-function render() {
-  pages.forEach((p, i) => {
-    p.classList.remove("active", "left");
-    if (i === current) p.classList.add("active");
-    if (i < current) p.classList.add("left");
-  });
-  typeWriter(texts(name)[current], document.getElementById(`text-${current}`));
-  prev.disabled = current === 0;
-  next.disabled = false;
-
-  
-}
-giftBox.addEventListener("click", () => {
-  giftBox.style.animation = "none";
-  giftText.classList.remove("d-none");
-  reflection.classList.remove("d-none");
-});
-
-/* ================= FORM ================= */
-button.onclick = () => {
-  if (!input.value.trim()) {
-    error.classList.remove("d-none");
-    return;
-  }
-  name = input.value.trim();
-  localStorage.setItem("visitorName", name);
-  overlay.style.display = "none";
-  bookLoader.style.display = "flex";
-  
-  // Pequeña pausa para UX
-  setTimeout(() => {
-    bookLoader.style.display = "none";
-    render();
-  }, 600);
-  
-};
-
-if (name) {
-  overlay.style.display = "none";
-  bookLoader.style.display = "flex";
-  
-  setTimeout(() => {
-    bookLoader.style.display = "none";
-    render();
-  }, 500);
-  
-}
-
-prev.onclick = () => { if (current > 0) { current--; render(); }};
-next.onclick = () => {
-  // Si NO estamos en la última página → pasar página normal
-  if (current < pages.length - 1) {
-    current++;
-    render();
-    return;
-  }
-
-  // Si YA estamos en la última página → cerrar libro y mostrar regalo
-  book.style.opacity = "0";
-  book.style.transform = "scale(0.95)";
-  book.style.pointerEvents = "none";
-
-  setTimeout(() => {
-    book.style.display = "none";
-    giftOverlay.style.display = "flex";
-  }, 600);
-};
-const sendReflectionBtn = document.getElementById("sendReflection");
-const reflectionInput = document.getElementById("reflectionInput");
-const reflectionMsg = document.getElementById("reflectionMsg");
-sendReflectionBtn.addEventListener("click", () => {
-  const text = reflectionInput.value.trim();
-
-  if (!text) {
-    reflectionMsg.textContent = "Escribe algo antes de enviarlo 🙂";
-    reflectionMsg.className = "text-warning mt-2";
-    reflectionMsg.classList.remove("d-none");
-    return;
-  }
-
-  fetch("https://script.google.com/macros/s/AKfycbxhoJt6DdeT0AnPJbzgWJ4uR4ff9p08IXpsr3jMNFFq1YSr-L7jxtqFFtUkt08q4tscuw/exec", {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: name,
-      reflection: text
-    })
-  });
-
-  // Mensaje de gracias
-  reflectionMsg.textContent = "Gracias por compartirlo 💙";
-  reflectionMsg.className = "text-success mt-2";
-  reflectionMsg.classList.remove("d-none");
-
-  // Desvanecer bloque de reflexión
-  setTimeout(() => {
-    reflection.classList.add("fade-out");
-  }, 600);
-
-  // Dejar solo el mensaje final
-  setTimeout(() => {
-    reflection.style.display = "none";
-    giftText.classList.add("final");
-  }, 1200);
-});
-
-
-
-</script>
-
+  <script defer src="./js/app.js"></script>
 </body>
 </html>
