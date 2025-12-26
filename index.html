@@ -6,6 +6,7 @@
 <title>Navidad 2025 🎄</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="icon" type="image/png" href="https://em-content.zobj.net/thumbs/240/apple/354/christmas-tree_1f384.png">
 
 <style>
 /* ================= BASE ================= */
@@ -194,6 +195,123 @@ body {
 .gift-overlay {
   display: none;
 }
+/* ===== MEJORA CONTRASTE REGALO ===== */
+
+.gift-overlay {
+  background:
+    radial-gradient(circle at center, rgba(255,255,220,0.25), rgba(0,0,0,0.96));
+}
+
+.gift-text {
+  color: #fff;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.9),
+    0 0 25px rgba(255,215,0,0.8),
+    0 0 45px rgba(255,215,0,0.6);
+}
+
+.gift-box {
+  filter: drop-shadow(0 0 30px rgba(255,215,0,0.9));
+}
+
+.reflection h4 {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(255,255,255,0.7);
+}
+
+.reflection textarea {
+  background: rgba(255,255,255,0.95);
+  color: #111;
+  font-size: 0.95rem;
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.4),
+    0 0 25px rgba(255,215,0,0.3);
+}
+/* ===== AJUSTES REGALO ===== */
+
+.gift-text {
+  margin-top: 24px;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.gift-text .gift-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.reflection {
+  margin-top: 28px;
+}
+
+.reflection h4 {
+  font-size: 1.1rem;
+}
+
+.reflection-hint {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.reflection textarea {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+}
+
+#reflectionMsg {
+  font-size: 0.9rem;
+}
+/* ===== CIERRE TRAS ENVÍO ===== */
+.fade-out {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.gift-text.final {
+  font-size: 2.3rem;
+  margin-top: 10px;
+}
+/* ===== LOADER INICIAL LIBRO ===== */
+.book-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 20;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.loader-text {
+  font-size: 1rem;
+  opacity: 0.95;
+  margin-bottom: 8px;
+}
+
+.loader-dots {
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+  animation: dots 1.4s infinite;
+}
+
+@keyframes dots {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
 
 </style>
 </head>
@@ -226,6 +344,13 @@ for (let i = 0; i < 40; i++) {
 
 <!-- ================= LIBRO ================= -->
 <div class="book" id="book">
+<!-- LOADER INICIAL -->
+<div class="book-loader" id="bookLoader">
+  <div class="loader-text">
+    Preparando algo especial para ti… ✨
+  </div>
+  <div class="loader-dots">•••</div>
+</div>
 
   <!-- PORTADA -->
   <div class="page active"><div class="page-content">
@@ -247,24 +372,49 @@ for (let i = 0; i < 40; i++) {
   </div>
 </div>
 <!-- ================= REGALO FINAL ================= -->
-<div class="gift-overlay" id="giftOverlay">
-  <div class="gift-light"></div>
+<div class="gift-overlay" id="giftOverlay" aria-hidden="true">
 
-  <div class="gift-box" id="giftBox">
+  <!-- Resplandor -->
+
+  <!-- Caja -->
+  <div class="gift-box" id="giftBox" role="button" aria-label="Abrir regalo">
     🎁
   </div>
 
+  <!-- Mensaje principal -->
   <div class="gift-text d-none" id="giftText">
-    ¡Feliz Navidad y Próspero Año 2026! ✨🎄
+    ¡Feliz Navidad! 🎄✨<br>
+    <span class="gift-sub">
+      y Próspero Año 2026
+    </span>
   </div>
 
+  <!-- Reflexión -->
   <div class="reflection d-none" id="reflection">
     <h4>Si te apetece, deja aquí un comentario 💭</h4>
+
+    <p class="reflection-hint">
+      Me encantará leer una reflexión o simplemente unas palabras.
+    </p>
+
     <textarea
-      placeholder="Cuéntame algo vengaaa"
+      id="reflectionInput"
+      placeholder="Cuéntame algo, lo que te salga del corazón 🙂"
+      maxlength="800"
     ></textarea>
+
+    <button
+      id="sendReflection"
+      class="btn btn-light w-100 mt-3 fw-semibold"
+    >
+      Enviar✨
+    </button>
+
+    <div id="reflectionMsg" class="mt-2 d-none"></div>
   </div>
+
 </div>
+
 
 <script>
 /* ================= DATOS ================= */
@@ -277,8 +427,10 @@ const giftOverlay = document.getElementById("giftOverlay");
 const giftBox = document.getElementById("giftBox");
 const giftText = document.getElementById("giftText");
 const reflection = document.getElementById("reflection");
+const bookLoader = document.getElementById("bookLoader");
 
 let name = localStorage.getItem("visitorName");
+
 
 /* ================= TEXTO ORIGINAL ÍNTEGRO ================= */
 const texts = (n) => [
@@ -332,19 +484,25 @@ Gracias, porque sin ti, el año habría sido un poquito peor, un poquito menos d
 /* ================= TYPEWRITER ================= */
 let timer;
 function typeWriter(text, el) {
-  el.textContent = "";
-  el.scrollTop = 0;
-  let i = 0;
   clearInterval(timer);
+
+  // Pintar inmediatamente el primer carácter
+  el.textContent = text.charAt(0);
+  el.scrollTop = el.scrollHeight;
+
+  let i = 1;
+
   timer = setInterval(() => {
     el.textContent += text.charAt(i++);
     el.scrollTop = el.scrollHeight;
+
     if (i >= text.length) {
       clearInterval(timer);
       adjustHeight(el);
     }
   }, 22);
 }
+
 
 /* ================= ALTURA DINÁMICA ================= */
 function adjustHeight(el) {
@@ -387,12 +545,25 @@ button.onclick = () => {
   name = input.value.trim();
   localStorage.setItem("visitorName", name);
   overlay.style.display = "none";
-  render();
+  bookLoader.style.display = "flex";
+  
+  // Pequeña pausa para UX
+  setTimeout(() => {
+    bookLoader.style.display = "none";
+    render();
+  }, 600);
+  
 };
 
 if (name) {
   overlay.style.display = "none";
-  render();
+  bookLoader.style.display = "flex";
+  
+  setTimeout(() => {
+    bookLoader.style.display = "none";
+    render();
+  }, 500);
+  
 }
 
 prev.onclick = () => { if (current > 0) { current--; render(); }};
@@ -414,6 +585,47 @@ next.onclick = () => {
     giftOverlay.style.display = "flex";
   }, 600);
 };
+const sendReflectionBtn = document.getElementById("sendReflection");
+const reflectionInput = document.getElementById("reflectionInput");
+const reflectionMsg = document.getElementById("reflectionMsg");
+sendReflectionBtn.addEventListener("click", () => {
+  const text = reflectionInput.value.trim();
+
+  if (!text) {
+    reflectionMsg.textContent = "Escribe algo antes de enviarlo 🙂";
+    reflectionMsg.className = "text-warning mt-2";
+    reflectionMsg.classList.remove("d-none");
+    return;
+  }
+
+  fetch("https://script.google.com/macros/s/AKfycbxhoJt6DdeT0AnPJbzgWJ4uR4ff9p08IXpsr3jMNFFq1YSr-L7jxtqFFtUkt08q4tscuw/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: name,
+      reflection: text
+    })
+  });
+
+  // Mensaje de gracias
+  reflectionMsg.textContent = "Gracias por compartirlo 💙";
+  reflectionMsg.className = "text-success mt-2";
+  reflectionMsg.classList.remove("d-none");
+
+  // Desvanecer bloque de reflexión
+  setTimeout(() => {
+    reflection.classList.add("fade-out");
+  }, 600);
+
+  // Dejar solo el mensaje final
+  setTimeout(() => {
+    reflection.style.display = "none";
+    giftText.classList.add("final");
+  }, 1200);
+});
+
+
 
 </script>
 
